@@ -68,8 +68,8 @@ export default function Timeline() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gaming Timeline</h1>
-          <p className="text-gray-600 mt-1">Visual journey through your gaming history by platform</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('gamingTimeline')}</h1>
+          <p className="text-gray-600 mt-1">{t('visualJourney')}</p>
         </div>
         <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
           <SelectTrigger className="w-48">

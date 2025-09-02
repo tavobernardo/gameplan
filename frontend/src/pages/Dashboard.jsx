@@ -1,0 +1,149 @@
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { Progress } from "../components/ui/progress";
+import { getStats, mockGames } from "../mock";
+import { Trophy, Clock, Target, Star, TrendingUp, Calendar } from "lucide-react";
+
+export default function Dashboard() {
+  const stats = getStats();
+  const recentGames = mockGames.slice(0, 3);
+  const currentlyPlaying = mockGames.filter(game => game.status === "In Progress");
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Gaming Dashboard</h1>
+          <p className="text-gray-600 mt-1">Track your gaming journey and progress</p>
+        </div>
+        <Badge variant="outline" className="text-sm px-3 py-1">
+          <Calendar className="h-4 w-4 mr-1" />
+          {new Date().toLocaleDateString()}
+        </Badge>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Games</CardTitle>
+            <Target className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{stats.totalGames}</div>
+            <p className="text-xs text-gray-600 mt-1">In your collection</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Completed</CardTitle>
+            <Trophy className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{stats.completed}</div>
+            <p className="text-xs text-gray-600 mt-1">Games finished</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Playtime</CardTitle>
+            <Clock className="h-4 w-4 text-purple-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{stats.totalPlaytime}h</div>
+            <p className="text-xs text-gray-600 mt-1">Total hours played</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avg Rating</CardTitle>
+            <Star className="h-4 w-4 text-yellow-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900">{stats.avgRating}</div>
+            <p className="text-xs text-gray-600 mt-1">Average score</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Currently Playing */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <TrendingUp className="h-5 w-5 mr-2 text-blue-600" />
+              Currently Playing
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {currentlyPlaying.length > 0 ? (
+              currentlyPlaying.map((game) => (
+                <div key={game.id} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                  <img
+                    src={game.cover}
+                    alt={game.title}
+                    className="w-12 h-16 object-cover rounded"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 truncate">{game.title}</h3>
+                    <p className="text-sm text-gray-600">{game.platform} • {game.playtime}h played</p>
+                    <div className="mt-2">
+                      <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                        <span>Progress</span>
+                        <span>{game.progress}%</span>
+                      </div>
+                      <Progress value={game.progress} className="h-2" />
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 text-center py-4">No games currently in progress</p>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Clock className="h-5 w-5 mr-2 text-green-600" />
+              Recent Activity
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {recentGames.map((game) => (
+              <div key={game.id} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <img
+                  src={game.cover}
+                  alt={game.title}
+                  className="w-12 h-16 object-cover rounded"
+                />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-gray-900 truncate">{game.title}</h3>
+                  <p className="text-sm text-gray-600">{game.platform} • {game.genre}</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <Badge 
+                      variant={game.status === "Completed" ? "default" : game.status === "In Progress" ? "secondary" : "destructive"}
+                      className="text-xs"
+                    >
+                      {game.status}
+                    </Badge>
+                    <div className="flex items-center">
+                      <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                      <span className="text-xs text-gray-600 ml-1">{game.rating}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

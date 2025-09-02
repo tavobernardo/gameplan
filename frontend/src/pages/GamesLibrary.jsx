@@ -164,13 +164,14 @@ export default function GamesLibrary() {
               )}
             </CardContent>
           </Card>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
-      {filteredGames.length === 0 && (
+      {!loading && games.length === 0 && (
         <div className="text-center py-12">
           <Filter className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500">No games found matching your filters</p>
+          <p className="text-gray-500">{t('noGamesMatchingFilters')}</p>
         </div>
       )}
     </div>

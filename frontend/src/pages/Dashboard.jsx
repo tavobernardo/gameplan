@@ -1,16 +1,72 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Progress } from "../components/ui/progress";
-import { getStats, mockGames } from "../mock";
+import { gamesApi, handleApiError } from "../services/api";
 import { Trophy, Clock, Target, Star, TrendingUp, Calendar } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Dashboard() {
   const { t } = useLanguage();
-  const stats = getStats();
-  const recentGames = mockGames.slice(0, 3);
-  const currentlyPlaying = mockGames.filter(game => game.status === "In Progress");
+  const [stats, setStats] = useState({
+    totalGames: 0,
+    completed: 0,
+    inProgress: 0,
+    totalPlaytime: 0,
+    avgRating: 0,
+    backlogCount: 0
+  });
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch stats and games in parallel
+        const [statsResponse, gamesResponse] = await Promise.all([
+          gamesApi.getStats(),
+          gamesApi.getAll()
+        ]);
+        
+        setStats(statsResponse.data);
+        setGames(gamesResponse.data);
+        
+      } catch (err) {
+        const apiError = handleApiError(err);
+        setError(apiError.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading dashboard...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-red-500">Error: {error}</div>
+        </div>
+      </div>
+    );
+  }
+
+  const recentGames = games.slice(0, 3);
+  const currentlyPlaying = games.filter(game => game.status === "In Progress");
 
   return (
     <div className="p-6 space-y-6">

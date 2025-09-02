@@ -183,7 +183,7 @@ export default function GamesLibrary() {
         </div>
       )}
 
-      {!loading && games.length === 0 && (
+      {!loading && filteredGames.length === 0 && (
         <div className="text-center py-12">
           <Filter className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500">{t('noGamesMatchingFilters')}</p>

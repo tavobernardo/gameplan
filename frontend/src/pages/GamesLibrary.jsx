@@ -66,10 +66,17 @@ export default function GamesLibrary() {
           <h1 className="text-3xl font-bold text-gray-900">{t('gamesLibrary')}</h1>
           <p className="text-gray-600 mt-1">{t('manageCollection')}</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
-          <Plus className="h-4 w-4 mr-2" />
-          {t('addGame')}
-        </Button>
+        <div className="flex items-center space-x-3">
+          {usingMockData && (
+            <Badge variant="outline" className="text-xs px-2 py-1 bg-yellow-50 text-yellow-700 border-yellow-200">
+              Demo Mode
+            </Badge>
+          )}
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            <Plus className="h-4 w-4 mr-2" />
+            {t('addGame')}
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}

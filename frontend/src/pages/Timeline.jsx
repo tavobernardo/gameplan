@@ -1,14 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
-import { getGamesByPlatform, platforms } from "../mock";
+import { gamesApi, getGamesByPlatform, handleApiError } from "../services/api";
+import { platforms } from "../mock";
 import { Calendar, Star, Clock, Trophy, Gamepad2 } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Timeline() {
+  const { t } = useLanguage();
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedPlatform, setSelectedPlatform] = useState("All");
-  const gamesByPlatform = getGamesByPlatform();
-  
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        setLoading(true);
+        const response = await gamesApi.getAll();
+        setGames(response.data);
+      } catch (err) {
+        const apiError = handleApiError(err);
+        setError(apiError.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading timeline...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-red-500">Error: {error}</div>
+        </div>
+      </div>
+    );
+  }
+
+  const gamesByPlatform = getGamesByPlatform(games);
   const filteredData = selectedPlatform === "All" 
     ? gamesByPlatform 
     : gamesByPlatform.filter(platform => platform.platform === selectedPlatform);

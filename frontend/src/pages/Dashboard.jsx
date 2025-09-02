@@ -16,8 +16,8 @@ export default function Dashboard() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Gaming Dashboard</h1>
-          <p className="text-gray-600 mt-1">Track your gaming journey and progress</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('gamingDashboard')}</h1>
+          <p className="text-gray-600 mt-1">{t('trackJourney')}</p>
         </div>
         <Badge variant="outline" className="text-sm px-3 py-1">
           <Calendar className="h-4 w-4 mr-1" />

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 from datetime import datetime
-from ..models import Backlog, BacklogCreate, BacklogUpdate, Game, MoveToLibraryRequest
-from ..database import backlog_collection, games_collection
+from models import Backlog, BacklogCreate, BacklogUpdate, Game, MoveToLibraryRequest
+from database import backlog_collection, games_collection
 
 router = APIRouter(prefix="/backlog", tags=["backlog"])
 

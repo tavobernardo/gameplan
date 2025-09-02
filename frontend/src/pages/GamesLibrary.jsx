@@ -55,12 +55,12 @@ export default function GamesLibrary() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Games Library</h1>
-          <p className="text-gray-600 mt-1">Manage and organize your game collection</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('gamesLibrary')}</h1>
+          <p className="text-gray-600 mt-1">{t('manageCollection')}</p>
         </div>
         <Button className="bg-blue-600 hover:bg-blue-700">
           <Plus className="h-4 w-4 mr-2" />
-          Add Game
+          {t('addGame')}
         </Button>
       </div>
 

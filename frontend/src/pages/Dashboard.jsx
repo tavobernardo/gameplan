@@ -29,45 +29,45 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Games</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('totalGames')}</CardTitle>
             <Target className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{stats.totalGames}</div>
-            <p className="text-xs text-gray-600 mt-1">In your collection</p>
+            <p className="text-xs text-gray-600 mt-1">{t('inYourCollection')}</p>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completed</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('completed')}</CardTitle>
             <Trophy className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{stats.completed}</div>
-            <p className="text-xs text-gray-600 mt-1">Games finished</p>
+            <p className="text-xs text-gray-600 mt-1">{t('gamesFinished')}</p>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Playtime</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('playtime')}</CardTitle>
             <Clock className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{stats.totalPlaytime}h</div>
-            <p className="text-xs text-gray-600 mt-1">Total hours played</p>
+            <p className="text-xs text-gray-600 mt-1">{t('totalHoursPlayed')}</p>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Rating</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('avgRating')}</CardTitle>
             <Star className="h-4 w-4 text-yellow-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-gray-900">{stats.avgRating}</div>
-            <p className="text-xs text-gray-600 mt-1">Average score</p>
+            <p className="text-xs text-gray-600 mt-1">{t('averageScore')}</p>
           </CardContent>
         </Card>
       </div>

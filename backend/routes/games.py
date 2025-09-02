@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 from datetime import datetime
-from ..models import Game, GameCreate, GameUpdate, StatsResponse
-from ..database import games_collection, backlog_collection
+from models import Game, GameCreate, GameUpdate, StatsResponse
+from database import games_collection, backlog_collection
 
 router = APIRouter(prefix="/games", tags=["games"])
 

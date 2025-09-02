@@ -4,8 +4,10 @@ import { Badge } from "../components/ui/badge";
 import { Progress } from "../components/ui/progress";
 import { getStats, mockGames } from "../mock";
 import { Trophy, Clock, Target, Star, TrendingUp, Calendar } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Dashboard() {
+  const { t } = useLanguage();
   const stats = getStats();
   const recentGames = mockGames.slice(0, 3);
   const currentlyPlaying = mockGames.filter(game => game.status === "In Progress");

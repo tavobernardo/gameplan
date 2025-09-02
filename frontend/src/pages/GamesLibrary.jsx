@@ -137,7 +137,7 @@ export default function GamesLibrary() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {games.map((game) => (
+          {filteredGames.map((game) => (
           <Card key={game.id} className="hover:shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer">
             <div className="aspect-[3/4] relative overflow-hidden rounded-t-lg">
               <img

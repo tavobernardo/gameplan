@@ -72,10 +72,17 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold text-gray-900">{t('gamingDashboard')}</h1>
           <p className="text-gray-600 mt-1">{t('trackJourney')}</p>
         </div>
-        <Badge variant="outline" className="text-sm px-3 py-1">
-          <Calendar className="h-4 w-4 mr-1" />
-          {new Date().toLocaleDateString()}
-        </Badge>
+        <div className="flex items-center space-x-3">
+          {usingMockData && (
+            <Badge variant="outline" className="text-xs px-2 py-1 bg-yellow-50 text-yellow-700 border-yellow-200">
+              Demo Mode
+            </Badge>
+          )}
+          <Badge variant="outline" className="text-sm px-3 py-1">
+            <Calendar className="h-4 w-4 mr-1" />
+            {new Date().toLocaleDateString()}
+          </Badge>
+        </div>
       </div>
 
       {/* Stats Grid */}

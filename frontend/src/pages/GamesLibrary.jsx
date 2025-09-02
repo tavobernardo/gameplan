@@ -116,8 +116,13 @@ export default function GamesLibrary() {
       </Card>
 
       {/* Games Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredGames.map((game) => (
+      {loading ? (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-500">Loading games...</div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {games.map((game) => (
           <Card key={game.id} className="hover:shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer">
             <div className="aspect-[3/4] relative overflow-hidden rounded-t-lg">
               <img

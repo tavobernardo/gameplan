@@ -158,7 +158,7 @@ export default function Timeline() {
                               <div className="text-right ml-4">
                                 <div className="flex items-center text-sm text-gray-500 mb-1">
                                   <Calendar className="h-4 w-4 mr-1" />
-                                  {game.completionDate ? "Completed" : game.startDate ? "Started" : "Released"}
+                                  {game.completionDate ? t('completedOn') : game.startDate ? t('started') : t('released')}
                                 </div>
                                 <p className="text-sm font-medium text-gray-900">
                                   {formatDate(game.completionDate || game.startDate || game.releaseDate)}

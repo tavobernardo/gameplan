@@ -78,7 +78,7 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <TrendingUp className="h-5 w-5 mr-2 text-blue-600" />
-              Currently Playing
+              {t('currentlyPlaying')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -95,7 +95,7 @@ export default function Dashboard() {
                     <p className="text-sm text-gray-600">{game.platform} • {game.playtime}h played</p>
                     <div className="mt-2">
                       <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
-                        <span>Progress</span>
+                        <span>{t('progress')}</span>
                         <span>{game.progress}%</span>
                       </div>
                       <Progress value={game.progress} className="h-2" />
@@ -104,7 +104,7 @@ export default function Dashboard() {
                 </div>
               ))
             ) : (
-              <p className="text-gray-500 text-center py-4">No games currently in progress</p>
+              <p className="text-gray-500 text-center py-4">{t('noGamesInProgress')}</p>
             )}
           </CardContent>
         </Card>
@@ -114,7 +114,7 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <Clock className="h-5 w-5 mr-2 text-green-600" />
-              Recent Activity
+              {t('recentActivity')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">

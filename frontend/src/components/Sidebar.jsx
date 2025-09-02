@@ -2,15 +2,19 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Home, Library, Clock, Bookmark, Gamepad2 } from "lucide-react";
 import { cn } from "../lib/utils";
-
-const navigation = [
-  { name: "Dashboard", href: "/", icon: Home },
-  { name: "Games Library", href: "/games", icon: Library },
-  { name: "Timeline", href: "/timeline", icon: Clock },
-  { name: "Backlog", href: "/backlog", icon: Bookmark },
-];
+import { useLanguage } from "../contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Sidebar() {
+  const { t } = useLanguage();
+  
+  const navigation = [
+    { name: t('dashboard'), href: "/", icon: Home },
+    { name: t('gamesLibrary'), href: "/games", icon: Library },
+    { name: t('timeline'), href: "/timeline", icon: Clock },
+    { name: t('backlog'), href: "/backlog", icon: Bookmark },
+  ];
+
   return (
     <div className="flex flex-col w-64 bg-white border-r border-gray-200 shadow-sm">
       <div className="flex items-center justify-center h-16 px-4 border-b border-gray-200">
@@ -43,9 +47,10 @@ export default function Sidebar() {
         })}
       </nav>
       
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-gray-200 space-y-3">
+        <LanguageSwitcher />
         <div className="text-xs text-gray-500 text-center">
-          Track • Organize • Enjoy
+          {t('track')} • {t('organize')} • {t('enjoy')}
         </div>
       </div>
     </div>

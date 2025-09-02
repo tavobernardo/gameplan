@@ -5,7 +5,7 @@ import { Input } from "../components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Button } from "../components/ui/button";
 import { gamesApi, handleApiError } from "../services/api";
-import { platforms, genres, statuses } from "../mock";
+import { mockGames, platforms, genres, statuses } from "../mock";
 import { Search, Filter, Star, Clock, Calendar, Plus } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -14,28 +14,36 @@ export default function GamesLibrary() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [usingMockData, setUsingMockData] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [platformFilter, setPlatformFilter] = useState("All");
   const [genreFilter, setGenreFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
 
+  const filteredGames = games.filter(game => {
+    const matchesSearch = game.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         game.developer.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesPlatform = platformFilter === "All" || game.platform === platformFilter;
+    const matchesGenre = genreFilter === "All" || game.genre === genreFilter;
+    const matchesStatus = statusFilter === "All" || game.status === statusFilter;
+    
+    return matchesSearch && matchesPlatform && matchesGenre && matchesStatus;
+  });
+
   useEffect(() => {
     fetchGames();
-  }, [searchTerm, platformFilter, genreFilter, statusFilter]);
+  }, []);
 
   const fetchGames = async () => {
     try {
       setLoading(true);
-      const response = await gamesApi.getAll({
-        platform: platformFilter,
-        genre: genreFilter,
-        status: statusFilter,
-        search: searchTerm
-      });
+      const response = await gamesApi.getAll();
       setGames(response.data);
+      setUsingMockData(false);
     } catch (err) {
-      const apiError = handleApiError(err);
-      setError(apiError.message);
+      console.warn('API unavailable, using mock data:', err);
+      setGames(mockGames);
+      setUsingMockData(true);
     } finally {
       setLoading(false);
     }

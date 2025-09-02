@@ -92,7 +92,7 @@ export default function Timeline() {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900">{platformData.platform}</h2>
-                <p className="text-sm text-gray-600 font-normal">{platformData.games.length} games</p>
+                <p className="text-sm text-gray-600 font-normal">{platformData.games.length} {t('games')}</p>
               </div>
             </CardTitle>
           </CardHeader>

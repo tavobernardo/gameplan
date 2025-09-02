@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge";
 import { Progress } from "../components/ui/progress";
 import { gamesApi, handleApiError } from "../services/api";
+import { getStats, mockGames } from "../mock";
 import { Trophy, Clock, Target, Star, TrendingUp, Calendar } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 
@@ -19,13 +20,14 @@ export default function Dashboard() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [usingMockData, setUsingMockData] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         
-        // Fetch stats and games in parallel
+        // Try to fetch from API first
         const [statsResponse, gamesResponse] = await Promise.all([
           gamesApi.getStats(),
           gamesApi.getAll()
@@ -33,10 +35,15 @@ export default function Dashboard() {
         
         setStats(statsResponse.data);
         setGames(gamesResponse.data);
+        setUsingMockData(false);
         
       } catch (err) {
-        const apiError = handleApiError(err);
-        setError(apiError.message);
+        console.warn('API unavailable, using mock data:', err);
+        // Fallback to mock data
+        const mockStats = getStats();
+        setStats(mockStats);
+        setGames(mockGames);
+        setUsingMockData(true);
       } finally {
         setLoading(false);
       }
@@ -50,16 +57,6 @@ export default function Dashboard() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-center h-64">
           <div className="text-gray-500">Loading dashboard...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-red-500">Error: {error}</div>
         </div>
       </div>
     );

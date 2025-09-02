@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from datetime import datetime
-from ..models import Preferences, PreferencesCreate, PreferencesUpdate
-from ..database import preferences_collection
+from models import Preferences, PreferencesCreate, PreferencesUpdate
+from database import preferences_collection
 
 router = APIRouter(prefix="/preferences", tags=["preferences"])
 

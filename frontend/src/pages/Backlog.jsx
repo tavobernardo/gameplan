@@ -1,24 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { backlogApi, handleApiError } from "../services/api";
 import { mockBacklog, categories, priorities } from "../mock";
 import { Plus, Star, Clock, DollarSign, TrendingDown, Bookmark, Target, Heart } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Backlog() {
+  const { t } = useLanguage();
+  const [backlog, setBacklog] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [usingMockData, setUsingMockData] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [priorityFilter, setPriorityFilter] = useState("All");
 
-  const filteredBacklog = mockBacklog.filter(game => {
+  useEffect(() => {
+    const fetchBacklog = async () => {
+      try {
+        setLoading(true);
+        const response = await backlogApi.getAll();
+        setBacklog(response.data);
+        setUsingMockData(false);
+      } catch (err) {
+        console.warn('API unavailable, using mock data:', err);
+        setBacklog(mockBacklog);
+        setUsingMockData(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBacklog();
+  }, []);
+
+  const filteredBacklog = backlog.filter(game => {
     const matchesCategory = categoryFilter === "All" || game.category === categoryFilter;
     const matchesPriority = priorityFilter === "All" || game.priority === priorityFilter;
     return matchesCategory && matchesPriority;
   });
 
   const getBacklogByCategory = (category) => {
-    return mockBacklog.filter(game => game.category === category);
+    return backlog.filter(game => game.category === category);
   };
 
   const getPriorityColor = (priority) => {
